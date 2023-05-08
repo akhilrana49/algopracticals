@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> adjList[100]; // Adjacency list to store the graph
+bool visited[100]; // Array to keep track of visited nodes
+
+void dfs(int currNode) {
+    visited[currNode] = true; // Mark the current node as visited
+    cout << currNode << " "; // Print the current node
+
+    // Traverse through all the adjacent nodes of the current node
+    for (int adjNode : adjList[currNode]) {
+        if (!visited[adjNode]) {
+            dfs(adjNode); // Recursively call dfs on the adjacent node
+        }
+    }
+}
+
+int main() {
+    int n, m; // Number of nodes and edges
+    cin >> n >> m;
+
+    // Create the graph by adding edges to the adjacency list
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adjList[u].push_back(v);
+        adjList[v].push_back(u); // Assuming an undirected graph
+    }
+
+    // Call DFS on each unvisited node
+    for (int i = 1; i <= n; i++) {
+        if (!visited[i]) {
+            dfs(i);
+        }
+    }
+
+    return 0;
+}
