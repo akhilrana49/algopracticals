@@ -1,0 +1,51 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+
+using namespace std;
+
+vector<int> adjList[100]; // Adjacency list to store the graph
+bool visited[100]; // Array to keep track of visited nodes
+
+void bfs(int startNode) {
+    queue<int> q; // Create an empty queue
+    visited[startNode] = true; // Mark the starting node as visited
+    q.push(startNode); // Add the starting node to the queue
+
+    while (!q.empty()) {
+        int currNode = q.front();
+        q.pop(); // Remove the first element from the queue
+
+        cout << currNode << " "; // Print the current node
+
+        // Traverse through all the adjacent nodes of the current node
+        for (int adjNode : adjList[currNode]) {
+            if (!visited[adjNode]) {
+                visited[adjNode] = true; // Mark the adjacent node as visited
+                q.push(adjNode); // Add the adjacent node to the queue
+            }
+        }
+    }
+}
+
+int main() {
+    int n, m; // Number of nodes and edges
+    cin >> n >> m;
+
+    // Create the graph by adding edges to the adjacency list
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adjList[u].push_back(v);
+        adjList[v].push_back(u); // Assuming an undirected graph
+    }
+
+    // Call BFS on each unvisited node
+    for (int i = 1; i <= n; i++) {
+        if (!visited[i]) {
+            bfs(i);
+        }
+    }
+
+    return 0;
+}
